@@ -1,0 +1,21 @@
+services:
+  mongo_db: 
+    container_name: db_container
+    image: mongo:latest
+    restart: always
+    volumes: 
+      - mongo_db: /data/db
+    ports: 
+      -'27017:27017'
+  backend:
+    image: ./products-app-backend
+    ports: 
+      - 3000:8080
+    environment:
+      - MONGO_DB_URI=mongodb+srv://Luca:<password>@cluster0.f96tk.mongodb.net/test
+    depends_on:
+      - mongo_db
+  frontend:
+    image: ./products-app-frontend
+    ports:
+      - 4000:8081
